@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>钟表</title>
+		<style type="text/css">
+			#out{
+				position: relative;
+			}
+			#canvas{
+				position: absolute;
+				top: 0;
+				left: 0;
+			}
+			#canvas1{
+				position: absolute;
+				top: 30px;
+				left: 30px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="out">
+			<canvas id="canvas" width="610" height="610"></canvas>
+			<canvas id="canvas1" width="550" height="550"></canvas>
+		</div>
+	</body>
+	<script type="text/javascript">
+		const cvs = document.getElementById('canvas');
+		let ctx = canvas.getContext('2d');
+		// 空心圆
+		ctx.beginPath();
+		ctx.arc(305,305,300,0,2*Math.PI,true);
+		ctx.lineWidth=5;
+		ctx.closePath();
+		ctx.strokeStyle="red";
+		ctx.stroke();
+		
+		// 绘制表周围的小短线
+		for(let i=0 ; i<60 ; i++){
+			if(i%5!=0){
+				minutes(i*6);
+			}else{
+				hours(i*6);
+			}
+		}
+		function hours(angle){
+			ctx.beginPath();
+			ctx.translate(305,305);
+			ctx.rotate(angle*Math.PI/180);
+			ctx.moveTo(280,0);
+			ctx.lineTo(299,0);
+			ctx.lineWidth=5;
+			ctx.strokeStyle='red';
+			ctx.stroke();
+			ctx.rotate(-angle*Math.PI/180);
+			ctx.translate(-305,-305);
+			ctx.closePath();
+		}
+		
+		function minutes(angle){
+			ctx.beginPath();
+			ctx.translate(305,305);
+			ctx.rotate(angle*Math.PI/180);
+			ctx.moveTo(290,0);
+			ctx.lineTo(299,0);
+			ctx.lineWidth=5;
+			ctx.strokeStyle='blue';
+			ctx.stroke();
+			ctx.rotate(-angle*Math.PI/180);
+			ctx.translate(-305,-305);
+			ctx.closePath();
+		}
+		
+		const cvs1 = document.getElementById('canvas1');
+		let ctx1 = canvas1.getContext('2d');
+		line();
+		setInterval(function() {
+			line();
+		}, 1000);
+		
+		function line(){
+			ctx1.clearRect(0, 0, cvs1.width, cvs1.height)
+			let time = new Date();
+			// console.log(time.getHours())
+			
+			// 秒针
+			ctx1.beginPath();
+			ctx1.translate(275,275);
+			ctx1.rotate(time.getSeconds()*6*Math.PI/180);
+			ctx1.moveTo(0,0);
+			ctx1.lineTo(0,-280);
+			ctx1.lineWidth=3;
+			ctx1.strokeStyle='hotpink';
+			ctx1.stroke();
+			ctx1.rotate(-time.getSeconds()*6*Math.PI/180);
+			ctx1.translate(-275,-275);
+			ctx1.closePath();
+			
+			// 分针
+			ctx1.beginPath();
+			ctx1.translate(275,275);
+			ctx1.rotate(time.getMinutes()*6*Math.PI/180);
+			ctx1.moveTo(0,0);
+			ctx1.lineTo(0,-220);
+			ctx1.lineWidth=4;
+			ctx1.strokeStyle='royalblue';
+			ctx1.stroke();
+			ctx1.rotate(-time.getMinutes()*6*Math.PI/180);
+			ctx1.translate(-275,-275);
+			ctx1.closePath();
+			
+			// 时针
+			ctx1.beginPath();
+			ctx1.translate(275,275);
+			ctx1.rotate(time.getHours()*30*Math.PI/180);
+			ctx1.moveTo(0,0);
+			ctx1.lineTo(0,-160);
+			ctx1.lineWidth=6;
+			ctx1.strokeStyle='black';
+			ctx1.stroke();
+			ctx1.rotate(-time.getHours()*30*Math.PI/180);
+			ctx1.translate(-275,-275);
+			ctx1.closePath();
+		}
+		
+	</script>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>刮奖</title>
+		<style type="text/css">
+			#out{
+				position: relative;
+			}
+			#canvas1{
+				position: absolute;
+				top: 0;
+				left: 0;
+			}
+			#canvas2{
+				position: absolute;
+				top: 0;
+				left: 0;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="out">
+			<canvas id="canvas1" width="240" height="90"></canvas>
+			<canvas id="canvas2" width="240" height="90"></canvas>
+		</div>
+	</body>
+	<script type="text/javascript">
+		const cvs1 = document.getElementById('canvas1');
+		const cvs2 = document.getElementById('canvas2');
+		let ctx1 = canvas1.getContext('2d');
+		let arr = ['一等奖','二等奖','三等奖','谢谢惠顾']
+		let str = arr[Math.floor(Math.random()*arr.length)]
+		ctx1.beginPath();
+		ctx1.font = 'bold 40px 微软雅黑';
+		ctx1.fillText(str,40,50);
+		ctx1.closePath()
+		
+		let ctx2 = canvas2.getContext('2d');
+		ctx2.beginPath();
+		ctx2.fillStyle='#ccc';
+		ctx2.fillRect(0,0,cvs2.width,cvs2.height);
+		ctx2.closePath()
+		
+		cvs2.onmousedown = function(){
+			document.onmousemove = function(e){
+				ctx2.clearRect(e.offsetX,e.offsetY,10,10)
+			}
+			document.onmouseup = function(){
+				document.onmousemove = null;
+			}
+		}
+	</script>
+</html>
